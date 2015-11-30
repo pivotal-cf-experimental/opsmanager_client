@@ -1,0 +1,7 @@
+*.gem
+/.bundle
+/.config
+/.yardoc
+/pkg
+/tmp
+/vendor/cache
