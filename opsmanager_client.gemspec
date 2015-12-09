@@ -13,9 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Interact with the Pivotal Ops Manager from Ruby'
   spec.homepage      = ''
 
-  spec.metadata['allowed_push_host'] = 'https://cf-london@git.fury.io'
-
-  spec.files         = Dir.glob('lib/**/*') + ['LICENSE']
+  spec.files         = Dir.glob('lib/**/*') + ['LEGAL']
   spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 

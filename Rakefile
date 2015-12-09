@@ -18,7 +18,7 @@ desc 'push latest gem'
 task :push do
   new_gem = Dir["*.gem"].sort_by { |file| File.stat(file).ctime }.last
   raise "Could not find newly created gem!" unless new_gem
-  sh "fury push #{new_gem}"
+  sh "gem push #{new_gem}"
 end
 
 desc 'bump patch'
