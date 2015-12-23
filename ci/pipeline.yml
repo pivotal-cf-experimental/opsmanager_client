@@ -1,0 +1,21 @@
+---
+resources:
+  - name: opsmanager_client
+    type: git
+    source:
+      uri: https://github.com/pivotal-cf-experimental/opsmanager_client
+      branch: master
+
+jobs:
+  - name: tests
+    plan:
+      - get: opsmanager_client
+        trigger: true
+      - task: run-tests
+        config:
+          platform: linux
+          image: docker:///cflondonservices/london-services-ci-base#stable
+          inputs:
+            - name: opsmanager_client
+          run:
+            path: opsmanager_client/ci/tests.sh
