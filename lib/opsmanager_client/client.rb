@@ -172,11 +172,15 @@ module OpsmanagerClient
     end
 
     def cf_admin_credentials
-      cf_admin = uaa_job.properties.fetch("admin_credentials")
+      cf_uaa_credentials("admin_credentials")
+    end
+
+    def cf_uaa_credentials(credentials_key)
+      cf_credentials = uaa_job.properties.fetch(credentials_key)
 
       OpenStruct.new(
-        :username => cf_admin.fetch("identity"),
-        :password => cf_admin.fetch("password")
+        :username => cf_credentials.fetch("identity"),
+        :password => cf_credentials.fetch("password")
       )
     end
 

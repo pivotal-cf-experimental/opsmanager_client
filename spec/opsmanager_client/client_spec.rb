@@ -15,19 +15,20 @@ require "opsmanager_client/client"
 # a redis product to OpsMan with the version mentioned below in :product
 module OpsmanagerClient
   describe Client, vcr: { record: :once } do
-    let(:domain) { "frappe.london.cf-app.com" }
+    let(:domain) { "doppio.london.cf-app.com" }
     let(:opsmanager_url) { "https://pcf.#{domain}" }
-    let(:product) { OpenStruct.new(:name => "p-redis", :version => "1.5.0.0.alpha.595.8b0a091") }
+    let(:product) { OpenStruct.new(:name => "p-datadog-firehose-nozzle", :version => "0.0.1.alpha.7.c98a3b7.dirty") }
     let(:unavailable_product) { OpenStruct.new(:name => "p-notavailable" , :version => "1.3.212.0") }
     let(:microbosh_version) { "1.6.0.0" }
-    let(:cf_version) { "1.6.0-build.163" }
-    let(:cf_admin_password) { "f2282e23e506e802d10d" }
-    let(:cf_admin_client_secret) { "a80554e8a7d59e93cc83" }
-    let(:cc_client_password) { "eb714d69a5e7b6ef2564" }
+    let(:cf_version) { "1.6.0-build.315" }
+    let(:cf_admin_password) { "cf_admin_password" }
+    let(:cf_admin_client_secret) { "cf_admin_client_secret" }
+    let(:cc_client_password) { "cc_client_password" }
     let(:router_vm_ip) { "10.0.16.15" }
-    let(:router_vm_password) { "e71bb14c8e6373bf" }
+    let(:router_vm_password) { "router_vm_password" }
+    let(:opentsdb_firehose_nozzle_password) { "opentsdb_firehose_nozzle_password" }
 
-    subject(:client) { Client.new(opsmanager_url, "admin", "look74Beer") }
+    subject(:client) { Client.new(opsmanager_url, "admin", "password") }
 
     describe "#cf_admin_credentials" do
       it "admin username and password" do
@@ -120,7 +121,7 @@ module OpsmanagerClient
       it "lists available products" do
         expect(client.available_products).to include(
           {"name"=>"cf", "product_version"=>cf_version},
-          {"name"=>"microbosh", "product_version"=>microbosh_version}
+          {"name"=>"p-bosh", "product_version"=>microbosh_version}
         )
       end
     end
@@ -141,6 +142,20 @@ module OpsmanagerClient
       it "returns the system domain" do
         expect(client.system_domain).to eql(domain)
       end
+    end
+
+    describe "#cf_uaa_credentials" do
+     it "returns the uaa admin credentials" do
+       credentials = client.cf_uaa_credentials("admin_credentials")
+       expect(credentials.username).to eql("admin")
+       expect(credentials.password).to eql(cf_admin_password)
+     end
+
+     it "returns the uaa opentsdb nozzle credentials" do
+       credentials = client.cf_uaa_credentials("opentsdb_nozzle_credentials")
+       expect(credentials.username).to eql("opentsdb-firehose-nozzle")
+       expect(credentials.password).to eql(opentsdb_firehose_nozzle_password)
+     end
     end
 
     describe "#cc_client_credentials" do
