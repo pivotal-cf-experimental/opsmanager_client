@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    opsmanager_client (0.8.0)
+    opsmanager_client (0.8.3)
       httmultiparty (~> 0.3)
 
 GEM
