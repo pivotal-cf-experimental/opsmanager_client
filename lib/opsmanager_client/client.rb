@@ -8,7 +8,6 @@
 # USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-require "opsmanager_client/client/version"
 require "opsmanager_client/product"
 require "opsmanager_client/http_client"
 
