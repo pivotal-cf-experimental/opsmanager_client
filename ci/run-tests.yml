@@ -1,0 +1,11 @@
+---
+platform: linux
+
+image: docker:///cflondonservices/london-services-ci-base#stable
+
+inputs:
+- name: opsmanager_client
+
+run:
+  path: opsmanager_client/ci/tests.sh
+
